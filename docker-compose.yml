@@ -1,0 +1,28 @@
+# Local equivalent of the Railway Template Composer settings.
+# Same image, same start command, same volume path, same variable names.
+# Requires Docker. The parity test in scripts/ does not require Docker.
+services:
+  mongodb:
+    image: mongo:9.0.4
+    command: docker-entrypoint.sh mongod --ipv6 --bind_ip ::,0.0.0.0 --setParameter diagnosticDataCollectionEnabled=false
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      # No default password on purpose: set MONGO_INITDB_ROOT_PASSWORD
+      # before running compose, or it fails fast instead of shipping
+      # a known placeholder password.
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:?MONGO_INITDB_ROOT_PASSWORD must be set}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,76 @@
+[
+  {
+    "phase": "setup_create_root_user",
+    "result": {
+      "ok": 1.0
+    }
+  },
+  {
+    "phase": "server_info",
+    "result": {
+      "version": "9.0.4",
+      "gitVersion": "64ade602b836c9adeffba7fa038c887ffab56196"
+    }
+  },
+  {
+    "phase": "authenticated_ping",
+    "result": {
+      "ok": 1.0
+    }
+  },
+  {
+    "phase": "insert",
+    "result": {
+      "inserted_id": "parity-2026-11-02",
+      "acknowledged": true
+    }
+  },
+  {
+    "phase": "read_back",
+    "result": {
+      "_id": "parity-2026-11-02",
+      "template": "mongodb-9.0",
+      "value": 42
+    }
+  },
+  {
+    "phase": "unauth_read_rejected",
+    "result": {
+      "code": 13,
+      "details": "Command find requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command find requires authentication', 'code': 13, 'codeName': 'Unauthorized'}"
+    }
+  },
+  {
+    "phase": "server_info",
+    "result": {
+      "version": "9.0.4",
+      "gitVersion": "64ade602b836c9adeffba7fa038c887ffab56196"
+    }
+  },
+  {
+    "phase": "authenticated_ping",
+    "result": {
+      "ok": 1.0
+    }
+  },
+  {
+    "phase": "read_after_restart",
+    "result": {
+      "_id": "parity-2026-11-02",
+      "template": "mongodb-9.0",
+      "value": 42
+    }
+  },
+  {
+    "phase": "delete",
+    "result": {
+      "deleted_count": 1
+    }
+  },
+  {
+    "phase": "collection_empty_after_delete",
+    "result": {
+      "count": 0
+    }
+  }
+]
