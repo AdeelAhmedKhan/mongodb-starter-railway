@@ -8,6 +8,26 @@ auth on, a persistent volume, and the same start command Railway's own
 MongoDB service uses. No app code, no replica set, nothing to configure
 beyond the root credentials.
 
+## Deploy
+
+Template page: https://railway.com/deploy/mongodb-90
+Source: https://github.com/AdeelAhmedKhan/mongodb-starter-railway
+
+1. Open the template page and deploy it into your Railway project.
+2. Railway generates the root username and password at deploy time.
+   Save them; they are shown once.
+3. Connect another service in the same project with `MONGO_URL`
+   (private domain), or use the TCP proxy host and port from outside
+   Railway.
+
+## Who this is for
+
+Developers who need a current MongoDB 9 database on Railway and want
+the official image with nothing extra: no app code, no replica set,
+no backup job. If you need high availability or managed backups, this
+single node template is not the right choice; the scope section below
+says so plainly.
+
 ## Why this template exists
 
 Railway's main MongoDB template still pins `mongo:8.0` (40,372 total /
@@ -87,9 +107,11 @@ server restart (persistence via the data directory).
 
 ## Honest scope — what is verified and what is not
 
-- **Verified locally 2026-11-02:** `mongod` 9.0.4 starts, auth works,
-  a real document round-trips, unauthenticated access is rejected,
-  and data survives a restart. See `docs/local-test-2026-11-02.md`.
+- **Verified locally 2026-11-02 and re-verified 2026-11-03:**
+  `mongod` 9.0.4 starts, auth works, a real document round-trips,
+  unauthenticated access is rejected, and data survives a restart.
+  See `docs/local-test-2026-11-02.md` and
+  `docs/local-test-2026-11-03.md`.
 - **Not tested:** a live Railway deploy of this template. That waits
   for a paid Railway plan to be active. Until then, do not claim this
   template is proven on Railway itself.
