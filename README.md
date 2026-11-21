@@ -112,9 +112,13 @@ server restart (persistence via the data directory).
   unauthenticated access is rejected, and data survives a restart.
   See `docs/local-test-2026-11-02.md` and
   `docs/local-test-2026-11-03.md`.
-- **Not tested:** a live Railway deploy of this template. That waits
-  for a paid Railway plan to be active. Until then, do not claim this
-  template is proven on Railway itself.
+- **Live verified on Railway 2026-11-21:** a fresh deploy of
+  this template was checked end to end over a TCP proxy —
+  MongoDB 9.0.4 with authentication enabled, an authenticated
+  ping and document round trip, unauthenticated reads rejected,
+  a wrong password rejected, and the documents intact after a
+  service redeploy on the same volume. The test project was
+  deleted afterwards.
 - **Not included:** a replica set, high availability, automatic
   failover, or backups. This is a single node. Railway's own MongoDB
   service can be converted to high availability from its Database
