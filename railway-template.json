@@ -14,7 +14,7 @@
             "healthcheck": {
                 "note": "Database services have no HTTP healthcheck path. Health is proven by an authenticated mongosh/pymongo ping, as in scripts/local-test.sh \u2014 not by process liveness alone."
             },
-            "image": "mongo:9.0.4",
+            "image": "mongo:9.0.8@sha256:b0c835c26e5997413e985000f1013c275377cd9607761c1784d486f6dd620b7f",
             "name": "MongoDB",
             "publicNetworking": false,
             "restartPolicy": "ON_FAILURE",
@@ -51,5 +51,5 @@
         }
     ],
     "stillUntestedAtPublish": [],
-    "verifiedLive": "2026-11-21: fresh deploy of the published template passed end to end on Railway (MongoDB 9.0.4, authorization enabled in the startup options, authenticated ping and document round trip over the TCP proxy, unauthenticated read rejected with code 13, wrong password rejected with code 18, documents intact after a service redeploy on the same volume). Test project deleted after verification."
+    "verifiedLive": "2026-11-21: fresh deploy of the published template passed end to end on Railway (MongoDB 9.0.4, authorization enabled in the startup options, authenticated ping and document round trip over the TCP proxy, unauthenticated read rejected with code 13, wrong password rejected with code 18, documents intact after a service redeploy on the same volume). Test project deleted after verification. Re-verified 2026-11-21 after the bump to mongo:9.0.8 pinned by digest: fresh deploy, buildInfo 9.0.8, same checks passed (round trip, code 13, code 18, persistence after redeploy)."
 }

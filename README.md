@@ -39,12 +39,16 @@ image, single-node MongoDB 9.0 template.
 Do **not** build or deploy MongoDB 8.2 from this template's history:
 8.2 was a rapid release whose support ended 31 Jul 2026.
 
-## Pinned versions (verified 2026-11-02)
+## Pinned versions (verified 2026-11-02, patch bumped 2026-11-21)
 
-- **MongoDB 9.0.4** — official `mongo:9.0.4` image. 9.0 GA 29 Sep 2026,
-  supported to 31 Oct 2031 (endoflife.date, MongoDB release notes).
-  9.0.4 is the latest patch (14 Oct 2026); do not stay on 9.0.0, which
-  predates CVE fixes shipped in 9.0.1 and 9.0.4.
+- **MongoDB 9.0.8** — official `mongo` image, pinned by digest:
+  `mongo:9.0.8@sha256:b0c835c26e5997413e985000f1013c275377cd9607761c1784d486f6dd620b7f`.
+  9.0 GA 29 Sep 2026, supported to 31 Oct 2031 (endoflife.date,
+  MongoDB release notes). 9.0.8 is the latest patch on the 9.0 line
+  (published 17 Nov 2026); do not stay on 9.0.0, which predates CVE
+  fixes shipped in later patches. The digest pin means the image
+  content cannot change underneath this template: an upgrade is a
+  deliberate pin bump, tested before it ships.
 - No app runtime, no driver, no framework is pinned here — this is a
   bare database service. Connect with any MongoDB 9.0-compatible driver.
 
@@ -58,7 +62,7 @@ it is not a file Railway reads automatically.
 | Setting | Value |
 |---|---|
 | Service name | `MongoDB` |
-| Image | `mongo:9.0.4` (official Docker Hub image) |
+| Image | `mongo:9.0.8@sha256:b0c835c26e5997413e985000f1013c275377cd9607761c1784d486f6dd620b7f` (official Docker Hub image, pinned by digest) |
 | Start command | `docker-entrypoint.sh mongod --ipv6 --bind_ip ::,0.0.0.0 --setParameter diagnosticDataCollectionEnabled=false` |
 | Volume | Mounted at `/data/db` (persistent — without it, data is lost on redeploy) |
 | Restart policy | On failure |
@@ -93,7 +97,7 @@ proxy host/port instead of the private domain.
 `docker-compose.yml` is the local equivalent of the Composer settings
 above (same image, same start command, same volume path, same variable
 names). Docker is not available in every test VM; `scripts/local-test.sh`
-runs the same checks against a local `mongod` 9.0.4 binary instead and
+runs the same checks against a local `mongod` 9.0.8 binary instead and
 writes its evidence to `docs/`.
 
 ```
@@ -118,14 +122,18 @@ server restart (persistence via the data directory).
   ping and document round trip, unauthenticated reads rejected,
   a wrong password rejected, and the documents intact after a
   service redeploy on the same volume. The test project was
-  deleted afterwards.
+  deleted afterwards. Re-verified the same day after the bump
+  to the digest pinned 9.0.8 image: fresh deploy, buildInfo
+  reported 9.0.8, and the same checks passed again (round trip,
+  unauthenticated read rejected with code 13, wrong password
+  rejected with code 18, documents intact after a redeploy).
 - **Not included:** a replica set, high availability, automatic
   failover, or backups. This is a single node. Railway's own MongoDB
   service can be converted to high availability from its Database
   settings; this community pin does not add that for you.
 - **Support scope warning (from Railway's docs):** Railway maintains
   its own MongoDB template. Changing the image, start command, or
-  variables — which this template does by pinning 9.0.4 — makes the
+  variables — which this template does by pinning 9.0.8 by digest — makes the
   database yours to manage, including future upgrades. Plan the 9.x
   patch upgrades yourself; do not assume Railway will bump this pin.
 
